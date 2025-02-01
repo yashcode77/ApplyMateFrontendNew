@@ -21,6 +21,7 @@ const Dashboard = () => {
   const fetchApplications = async () => {
     try {
       const response = await axios.get('applications');
+      console.log(response?.data);
       setApplications(response.data);
     } catch (error) {
       toast.error('Failed to fetch applications');
