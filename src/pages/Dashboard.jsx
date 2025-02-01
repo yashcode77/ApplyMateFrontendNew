@@ -61,10 +61,12 @@ const Dashboard = () => {
     }
   };
 
-  const filteredApplications = applications.filter(app =>
-    app?.companyName?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
-    app?.jobTitle?.toLowerCase().includes(searchTerm?.toLowerCase())
-  );
+  const filteredApplications = Array.isArray(applications)
+    ? applications.filter(app =>
+      app?.companyName?.toLowerCase().includes(searchTerm?.toLowerCase()) ||
+      app?.jobTitle?.toLowerCase().includes(searchTerm?.toLowerCase())
+    )
+    : [];
 
   return (
     <div className="container mx-auto py-6 space-y-6">
