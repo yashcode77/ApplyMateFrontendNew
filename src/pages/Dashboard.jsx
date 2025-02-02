@@ -37,6 +37,7 @@ const Dashboard = () => {
         await axios.put(`/applications/${editingApplication.id}`, data);
         toast.success('Application updated successfully');
       } else {
+        console.log(data);
         await axios.post('/applications', data);
         toast.success('Application added successfully');
       }

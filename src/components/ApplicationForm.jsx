@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, X } from 'lucide-react';
-import axios from '../config/axios'; 
+import axios from '../config/axios';
 import { toast } from 'react-hot-toast';
 
 export const ApplicationForm = ({ initialData, onSubmit, onCancel }) => {
@@ -53,14 +53,23 @@ export const ApplicationForm = ({ initialData, onSubmit, onCancel }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        const formattedInterviews = interviews.map((interview, index) => ({
+            roundNumber: index + 1,
+            interviewDate: new Date(interview.date).toISOString(),
+            interviewType: interview.type,
+            notes: interview.notes || '',
+            status: interview.status
+        }));
+
         const applicationData = {
             companyName: formData.companyName,
             jobTitle: formData.jobTitle,
             status: formData.status,
             jobDescription: formData.jobDescription,
             jobUrl: formData.jobUrl || '',
-            applicationDate: formData.applicationDate,
-            resumeUrl: formData.resumeUrl
+            applicationDate: new Date(formData.applicationDate).toISOString(),
+            resumeUrl: formData.resumeUrl,
+            interviews: formattedInterviews
         };
 
         if (formData.resume) {
@@ -81,6 +90,7 @@ export const ApplicationForm = ({ initialData, onSubmit, onCancel }) => {
                     toast.error('Failed to upload resume. Please try again.');
                 });
         } else {
+            console.log(applicationData);
             onSubmit(applicationData);
         }
     };
