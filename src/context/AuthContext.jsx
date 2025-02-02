@@ -1,10 +1,12 @@
 import React, { createContext, useState, useContext } from 'react';
 import axios from '../config/axios'; 
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(undefined);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   const login = async (username, password) => {
     try {
@@ -23,6 +25,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
+    navigate('/login');
     delete axios.defaults.headers.common['Authorization'];
   };
 

@@ -22,15 +22,16 @@ export const JobApplicationTable = ({
 }) => {
     return (
         <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-                <Search className="w-4 h-4 text-gray-500" />
+            <div className="relative max-w-sm">
+                <Search className="absolute top-1/2 left-3 w-4 h-4 text-gray-500 transform -translate-y-1/2 pointer-events-none" />
                 <Input
                     placeholder="Search applications..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="max-w-sm"
+                    className="pl-10"
                 />
             </div>
+
 
             <div className="rounded-md border">
                 <Table>

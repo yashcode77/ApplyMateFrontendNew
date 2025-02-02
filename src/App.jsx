@@ -19,8 +19,8 @@ const PublicRoute = () => {
 
 const App = () => {
   return (
-    <AuthProvider>
       <Router>
+    <AuthProvider>
         <Routes>
           {/* Public Routes */}
           <Route element={<PublicRoute />}>
@@ -41,8 +41,8 @@ const App = () => {
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
         <ToastContainer position="top-right" />
-      </Router>
     </AuthProvider>
+      </Router>
   );
 };
 
