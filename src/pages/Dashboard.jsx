@@ -36,18 +36,25 @@ const Dashboard = () => {
   const handleSubmit = async (data) => {
     try {
       if (editingApplication) {
-        await axios.put(`/applications/${editingApplication.id}`, data);
+        console.log('Updating application with data:', data);
+        await axios.put(`/applications/${editingApplication.id}`, {
+          ...data,
+          interviews: data.interviews.map(interview => ({
+            ...interview,
+            jobApplicationId: editingApplication.id
+          }))
+        });
         toast.success('Application updated successfully');
       } else {
-        console.log(data);
-        await axios.post('/applications', data);
+        console.log('Creating new application with data:', data);
+        await axios.post('/api/applications', data);
         toast.success('Application added successfully');
       }
       setIsFormOpen(false);
       setEditingApplication(null);
       fetchApplications();
     } catch (error) {
-      console.error('Error details:', error.response?.data);
+      console.error('Error saving application:', error);
       toast.error(error.response?.data?.message || 'Failed to save application');
     }
   };
@@ -66,17 +73,36 @@ const Dashboard = () => {
 
   const handleViewApplication = async (application) => {
     try {
-        console.log('Fetching interviews for application:', application.id);
-        const response = await axios.get(`/interviews/application/${application.id}`);
-        console.log('Interview response:', response.data);
-        setViewingApplication({
-            ...application,
-            interviews: response.data
-        });
+      console.log('Fetching interviews for application:', application.id);
+      const response = await axios.get(`/interviews/application/${application.id}`);
+      console.log('Interview response:', response.data);
+      setViewingApplication({
+        ...application,
+        interviews: response.data
+      });
     } catch (error) {
-        console.error('Error fetching interviews:', error);
-        toast.error('Failed to fetch interview details');
-        setViewingApplication(application);
+      console.error('Error fetching interviews:', error);
+      toast.error('Failed to fetch interview details');
+      setViewingApplication(application);
+    }
+  };
+
+  const handleEdit = async (application) => {
+    try {
+      console.log('Fetching interviews for editing application:', application.id);
+      const response = await axios.get(`/interviews/application/${application.id}`);
+      console.log('Interviews for editing:', response.data);
+
+      setEditingApplication({
+        ...application,
+        interviews: response.data
+      });
+      setIsFormOpen(true);
+    } catch (error) {
+      console.error('Error fetching interviews for edit:', error);
+      toast.error('Failed to fetch interview details');
+      setEditingApplication(application);
+      setIsFormOpen(true);
     }
   };
 
@@ -107,10 +133,7 @@ const Dashboard = () => {
       <JobApplicationTable
         applications={filteredApplications}
         onView={handleViewApplication}
-        onEdit={(app) => {
-          setEditingApplication(app);
-          setIsFormOpen(true);
-        }}
+        onEdit={handleEdit}
         onDelete={handleDelete}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
