@@ -220,7 +220,7 @@ const Dashboard = () => {
                     <div className="flex items-center space-x-2">
                       <FileText className="w-4 h-4" />
                       <a
-                        href={viewingApplication.resumeUrl}
+                        href={`https://applymate.s3.ap-south-1.amazonaws.com/${viewingApplication.resumeUrl}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-600 hover:underline"
