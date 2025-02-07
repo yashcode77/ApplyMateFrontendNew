@@ -85,17 +85,24 @@ const Dashboard = () => {
 
   return (
     <div className="container mx-auto py-6 space-y-6 p-8">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-2xl font-bold">ApplyMate</h1>
-        <div className="flex space-x-2">
-          <Button onClick={() => {
-            setEditingApplication(null);
-            setIsFormOpen(true);
-          }}>
+        <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-2">
+          <Button 
+            className="w-full sm:w-auto"
+            onClick={() => {
+              setEditingApplication(null);
+              setIsFormOpen(true);
+            }}
+          >
             <Plus className="w-4 h-4 mr-2" />
             Add Application
           </Button>
-          <Button variant="outline" onClick={logout}>
+          <Button 
+            variant="outline" 
+            className="w-full sm:w-auto"
+            onClick={logout}
+          >
             <LogOut className="w-4 h-4 mr-2" />
             Logout
           </Button>

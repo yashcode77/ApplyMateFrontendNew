@@ -46,6 +46,11 @@ export const Login = () => {
               required
             />
             <Button type="submit" className="w-full">Login</Button>
+            <div className="text-center text-sm text-gray-600 mt-2">
+              Guest Credentials:
+              <p>Username: test</p>
+              <p>Password: 123456</p>
+            </div>
             <p className="text-center">
               Don't have an account? <Link to="/signup" className="text-blue-500">Sign up</Link>
             </p>
