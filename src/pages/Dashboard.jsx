@@ -67,6 +67,22 @@ const Dashboard = () => {
     app?.jobTitle?.toLowerCase().includes(searchTerm?.toLowerCase())
   );
 
+  const handleViewApplication = async (application) => {
+    try {
+      console.log('Fetching interviews for application:', application.id);
+      const response = await axios.get(`/interviews/application/${application.id}`);
+      console.log('Interview response:', response.data);
+      setViewingApplication({
+        ...application,
+        interviews: response.data
+      });
+    } catch (error) {
+      console.error('Error fetching interviews:', error);
+      toast.error('Failed to fetch interview details');
+      setViewingApplication(application);
+    }
+  };
+
   return (
     <div className="container mx-auto py-6 space-y-6 p-8">
       <div className="flex justify-between items-center">
@@ -88,7 +104,7 @@ const Dashboard = () => {
 
       <JobApplicationTable
         applications={filteredApplications}
-        onView={setViewingApplication}
+        onView={handleViewApplication}
         onEdit={(app) => {
           setEditingApplication(app);
           setIsFormOpen(true);
@@ -192,6 +208,7 @@ const Dashboard = () => {
               </div>
 
               {/* Interviews */}
+              {/* Interviews */}
               {viewingApplication.interviews && viewingApplication.interviews.length > 0 && (
                 <>
                   <Separator />
@@ -205,8 +222,12 @@ const Dashboard = () => {
                         >
                           <div className="grid grid-cols-2 gap-4">
                             <div>
+                              <label className="text-sm font-medium text-gray-500">Round</label>
+                              <p className="mt-1">{interview.roundNumber}</p>
+                            </div>
+                            <div>
                               <label className="text-sm font-medium text-gray-500">Type</label>
-                              <p className="mt-1">{interview.type}</p>
+                              <p className="mt-1">{interview.interviewType}</p>
                             </div>
                             <div>
                               <label className="text-sm font-medium text-gray-500">Status</label>
@@ -215,7 +236,7 @@ const Dashboard = () => {
                             <div>
                               <label className="text-sm font-medium text-gray-500">Date</label>
                               <p className="mt-1">
-                                {format(new Date(interview.date), 'MMM dd, yyyy HH:mm')}
+                                {format(new Date(interview.interviewDate), 'MMM dd, yyyy HH:mm')}
                               </p>
                             </div>
                             {interview.notes && (
