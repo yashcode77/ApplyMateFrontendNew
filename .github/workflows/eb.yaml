@@ -28,7 +28,8 @@ jobs:
         run: npm run build           
 
       - name: Generate Deployment Package
-        run: zip -r ApplyMateFrontendNew.zip . -x "node_modules/*" "**.git**"
+        run: |
+          zip -r ApplyMateFrontendNew.zip dist/ Procfile .ebextensions/
 
       - name: Get timestamp
         uses: gerred/actions/current-time@master

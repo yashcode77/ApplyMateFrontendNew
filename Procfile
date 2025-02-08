@@ -1,1 +1,1 @@
-static: cp -r build/* /var/www/html/
+static: cp -r dist/* /var/www/html/
