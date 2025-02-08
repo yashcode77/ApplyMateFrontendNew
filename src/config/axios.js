@@ -2,7 +2,8 @@ import axios from 'axios';
 
 // Create axios instance with base URL
 const instance = axios.create({
-  baseURL: 'http://localhost:5000/api/'
+  // baseURL: 'http://localhost:5000/api/'
+  baseURL: 'http://applymate.ap-south-1.elasticbeanstalk.com/api/'
 });
 
 // Add an interceptor to include the token in requests

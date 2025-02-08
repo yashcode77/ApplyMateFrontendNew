@@ -109,7 +109,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <JobApplicationTable
+      {applications.length==0?<p className='flex justify-center text-gray-500 text-center'>Nothing to show. Click 'Add Application' to get started.</p>:<JobApplicationTable
         applications={filteredApplications}
         onView={handleViewApplication}
         onEdit={(app) => {
@@ -119,7 +119,7 @@ const Dashboard = () => {
         onDelete={handleDelete}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
-      />
+      />}
 
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
