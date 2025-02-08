@@ -27,9 +27,6 @@ jobs:
       - name: Build React app
         run: npm run build
 
-      - name: List files after build
-        run: ls -R
-
       - name: Generate Deployment Package
         run: zip -r ApplyMateFrontendNew.zip . -x "node_modules/*" "**.git**" 
 
