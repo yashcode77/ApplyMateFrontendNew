@@ -31,7 +31,7 @@ jobs:
         run: ls -R
 
       - name: Generate Deployment Package
-        run: zip -r ApplyMateFrontendNew.zip build/
+        run: zip -r ApplyMateFrontendNew.zip . -x "node_modules/*" "**.git**"
 
       - name: Get timestamp
         uses: gerred/actions/current-time@master
