@@ -1,0 +1,68 @@
+name: Deploy React Book App from GitHub to AWS Elastic Beanstalk
+
+on:
+  # Activates the workflow when there is a push to the master branch
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # The OS your job should run on
+    strategy:
+      matrix:
+        node-version: [16.x] # Node.js version for your app
+
+    steps:
+      - name: Checkout Latest Repo
+        # Checks out your repository under the GitHub workspace
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        # Sets up the specified Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        # Installs npm dependencies
+        run: npm install
+
+      - name: Build React app
+        # Builds the React app (generates files in the `build` folder)
+        run: npm run build
+
+      - name: Generate Deployment Package
+        # Zips the build folder (or the entire repo if no build folder is used)
+        run: zip -r ApplyMateFrontendNew.zip build/
+
+      - name: Get timestamp
+        # Gets the current timestamp for version labeling
+        uses: gerred/actions/current-time@master
+        id: current-time
+
+      - name: Format timestamp
+        # Replaces special characters in the timestamp with hyphens
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: '-'
+          flags: 'g'
+
+      - name: Deploy to Elastic Beanstalk
+        # Deploys the zipped package to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: "${{ secrets.ACCESS_KEY }}"
+          aws_secret_key: "${{ secrets.SECRET_ACCESS_KEY }}"
+          application_name: applymate
+          environment_name: Applymate-env-1
+          version_label: "app-${{ steps.format-time.outputs.replaced }}"
+          region: ap-south-1
+          deployment_package: ApplyMateFrontendNew.zip
+
+      - name: Deployed!
+        # Confirms successful deployment
+        run: echo "App deployed to Elastic Beanstalk"
