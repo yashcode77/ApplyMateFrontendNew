@@ -1,1 +1,1 @@
-static: cp -r dist/* /var/www/html/
+web: npm run preview

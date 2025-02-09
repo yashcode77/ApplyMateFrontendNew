@@ -1,0 +1,10 @@
+branch-defaults:
+  main:
+    environment: Applymate-env-1
+    group_suffix: null
+
+global:
+  application_name: applymate
+  default_platform: Node.js 18
+  default_region: ap-south-1
+  sc: git 
