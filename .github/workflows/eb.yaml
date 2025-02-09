@@ -29,7 +29,7 @@ jobs:
 
       - name: Generate Deployment Package
         run: |
-          zip -r ApplyMateFrontendNew.zip dist/ Procfile .ebextensions/
+          zip -r ApplyMateFrontendNewVersion.zip dist/ Procfile .ebextensions/
 
       - name: Get timestamp
         uses: gerred/actions/current-time@master
@@ -53,7 +53,7 @@ jobs:
           environment_name: Applymate-env-1
           version_label: "app-${{ steps.format-time.outputs.replaced }}"
           region: ap-south-1
-          deployment_package: ApplyMateFrontendNew.zip
+          deployment_package: ApplyMateFrontendNewVersion.zip
 
       - name: Deployed!
         run: echo "App deployed to Elastic Beanstalk"
