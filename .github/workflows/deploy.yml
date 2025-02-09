@@ -2,7 +2,7 @@ name: Deploy to AWS Elastic Beanstalk
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   deploy:
@@ -30,8 +30,8 @@ jobs:
       with:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: your-application-name
-        environment_name: your-environment-name
-        region: your-aws-region
+        application_name: applymate
+        environment_name: Applymate-env-1
+        region: ap-south-1
         deployment_package: deploy.zip
         version_label: ${{ github.sha }} 
