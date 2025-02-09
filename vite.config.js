@@ -14,7 +14,12 @@ export default defineConfig({
     host: true, // Allow all hosts
   },
   server: {
-    host: '0.0.0.0',
+    host: true,
     port: 8080
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
   },
 });
