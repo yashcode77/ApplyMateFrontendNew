@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x] # Use Node.js 18 or later
+        node-version: [18.x]
 
     steps:
       - name: Checkout Latest Repo
@@ -29,7 +29,16 @@ jobs:
 
       - name: Generate Deployment Package
         run: |
-          zip -r ApplyMateFrontendNewVersion.zip dist/ Procfile .ebextensions/
+          # Create necessary files if they don't exist
+          echo "web: npm start" > Procfile
+          
+          # Create deployment package with all required files
+          zip -r ApplyMateFrontendNewV1.zip \
+            dist/ \
+            Procfile \
+            .ebextensions/ \
+            package.json \
+            package-lock.json
 
       - name: Get timestamp
         uses: gerred/actions/current-time@master
@@ -53,7 +62,7 @@ jobs:
           environment_name: Applymate-env-1
           version_label: "app-${{ steps.format-time.outputs.replaced }}"
           region: ap-south-1
-          deployment_package: ApplyMateFrontendNewVersion.zip
+          deployment_package: ApplyMateFrontendNewV1.zip
 
       - name: Deployed!
         run: echo "App deployed to Elastic Beanstalk"
